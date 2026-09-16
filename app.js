@@ -317,7 +317,7 @@
         }
       }).catch(function () {
         submitBtn.removeAttribute("disabled");
-        setStatus("Something went wrong sending that. Try again, or email dvelupr@proton.me.", "err");
+        setStatus("Something went wrong sending that. Try again, or email contact@neverending-ar.com.", "err");
       });
     });
   }
