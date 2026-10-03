@@ -10,3 +10,6 @@ Code.gs
 .env
 .env.*
 !.env.example
+
+# promo clip workspace (large media)
+clips/

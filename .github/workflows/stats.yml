@@ -1,0 +1,50 @@
+name: Weekly stats refresh
+
+# Pulls the numbers from the Stats tab of the Google Sheet and commits them,
+# so the live site is updated once a week without anyone touching the repo.
+#
+# Requires one repository secret:
+#   STATS_ENDPOINT = the Apps Script Web App /exec URL (same one as the contact form)
+#
+# Settings > Secrets and variables > Actions > New repository secret.
+
+on:
+  schedule:
+    # 09:00 UTC every Monday (02:00 PT). Cron on GitHub is UTC and can run
+    # late under load; the job is idempotent, so a delayed run is harmless.
+    - cron: "0 9 * * 1"
+  workflow_dispatch: # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stats-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Pull stats from the sheet
+        env:
+          STATS_ENDPOINT: ${{ secrets.STATS_ENDPOINT }}
+        run: node scripts/update-stats.js
+
+      - name: Commit if anything changed
+        run: |
+          if git diff --quiet -- data/stats.json index.html; then
+            echo "No change this week — nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/stats.json index.html
+          git commit -m "Weekly stats refresh $(date -u +%Y-%m-%d)"
+          git push

@@ -1,0 +1,19 @@
+{
+  "updated": "2026-10-03",
+  "note": "Written by scripts/update-stats.js from the Stats tab of the Google Sheet. Do not hand-edit; edit the sheet.",
+  "current": {
+    "lifetime": 6698632,
+    "releases": 43,
+    "spotifyFollowers": null,
+    "youtubeSubs": null,
+    "tracks": [
+      { "name": "s80", "tag": "1M plaque", "value": 2871946 },
+      { "name": "Henny", "tag": "w/ DG", "value": 1548411 },
+      { "name": "BigSteppin", "tag": "", "value": 462217 },
+      { "name": "Run For Yo Life Remixx", "tag": "", "value": 207030 }
+    ]
+  },
+  "history": [
+    { "date": "2026-10-03", "lifetime": 6698632 }
+  ]
+}
